@@ -17,3 +17,12 @@ SOLAREDGE_API_KEY = XXXX
 ```
 
 You can find your SolarEdge Api Key and site ID from the [SolarEdge web dashboard](https://monitoring.solaredge.com/solaredge-web/p/login) settings.
+
+
+### My appliances
+
+- PV Inverter: SolarEdge SE5000H
+- Heat pump: Mitsubishi Ecodan PUZ-WM85VAA
+- Board: Raspberry Pi 2 Model B
+- Relay: AZDelivery KY-019
+
