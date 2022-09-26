@@ -10,7 +10,7 @@ The program collects every 15 minutes the domestic power production and consumpt
 
 ### Environment variables
 ```bash
-TICKER_PERIOD_SECONDS = 15
+REFRESH_TIME_SECONDS = 15
 SOLAREDGE_API_BASE_URL = https://monitoringapi.solaredge.com
 SOLAREDGE_SITE_ID = 1234
 SOLAREDGE_API_KEY = XXXX

@@ -19,9 +19,9 @@ func main() {
 		log.Fatal("error reading .env")
 	}
 
-	seconds, err := strconv.Atoi(os.Getenv("TICKER_PERIOD_SECONDS"))
+	seconds, err := strconv.Atoi(os.Getenv("REFRESH_TIME_SECONDS"))
 	if err != nil {
-		log.Fatal("error invalid TICKER_PERIOD_SECONDS")
+		log.Fatal("error invalid REFRESH_TIME_SECONDS")
 	}
 
 	solarEdgeClient := solaredge.NewClient(
