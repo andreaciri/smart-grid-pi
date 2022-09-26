@@ -23,6 +23,6 @@ You can find your SolarEdge Api Key and site ID from the [SolarEdge web dashboar
 
 - PV Inverter: SolarEdge SE5000H
 - Heat pump: Mitsubishi Ecodan PUZ-WM85VAA
-- Board: Raspberry Pi 2 Model B
+- Board: Raspberry Pi 3 Model B
 - Relay: AZDelivery KY-019
 
