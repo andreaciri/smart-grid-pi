@@ -1,8 +1,6 @@
 package relay
 
 import (
-	"log"
-
 	"github.com/stianeikeland/go-rpio"
 )
 
@@ -33,5 +31,4 @@ func (r Relay) SwitchOff() {
 
 func (r Relay) Toggle() {
 	r.pin.Toggle()
-	log.Println("toggle pin")
 }

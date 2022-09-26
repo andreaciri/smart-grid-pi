@@ -38,8 +38,3 @@ func (c Client) GetCurrentPower() (power *Power, err error) {
 	}
 	return power, nil
 }
-
-func EnergySurplus(power Power) bool {
-	return power.SiteCurrentPowerFlow.Pv.Status == PhotovoltaicStatusActive &&
-		power.SiteCurrentPowerFlow.Pv.CurrentPower > 1.5
-}
