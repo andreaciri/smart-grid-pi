@@ -15,9 +15,9 @@ func NewLed() (*Led, error) {
 		return nil, err
 	}
 
-	red := rpio.Pin(23)    // GPIO 23, physical pin 16
-	yellow := rpio.Pin(24) // GPIO 24, physical pin 18
-	green := rpio.Pin(25)  // GPIO 25, physical pin 22
+	red := rpio.Pin(13)    // GPIO 13, physical pin 33
+	yellow := rpio.Pin(19) // GPIO 19, physical pin 35
+	green := rpio.Pin(26)  // GPIO 26, physical pin 37
 
 	red.Output()
 	yellow.Output()
