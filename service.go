@@ -53,7 +53,8 @@ func (s Service) Run() error {
 		s.relay.Toggle()
 
 		lights[i]()
-		if i == 2 {
+		i = i + 1
+		if i == 3 {
 			i = 0
 		}
 
