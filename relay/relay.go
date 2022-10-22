@@ -15,6 +15,7 @@ func NewRelay() (*Relay, error) {
 
 	pin := rpio.Pin(3) // GPIO 3, physical pin 05
 	pin.Output()
+	pin.Low()
 
 	return &Relay{
 		pin: pin,

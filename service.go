@@ -1,9 +1,14 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"github.com/andreaciri/smart-grid-pi/solaredge"
+)
+
+const (
+	minimumPowerSurplusKwatt = 2.0
 )
 
 type SolarEdgeClient interface {
@@ -40,22 +45,36 @@ func NewService(solarEdgeClient SolarEdgeClient, relay Relay, led Led, refresh t
 
 func (s Service) Run() error {
 
-	lights := []func(){s.led.SwitchRed, s.led.SwitchYellow, s.led.SwitchGreen}
-	i := 0
-
 	for {
-		// power, err := s.solarEdgeClient.GetCurrentPower()
-		// if err != nil {
-		// 	return err
-		// }
-		// log.Println("Power! ", power)
 
-		s.relay.Toggle()
+		// sleep during night
+		if s.nightTime() {
+			time.Sleep(s.refresh)
+			continue
+		}
 
-		lights[i]()
-		i = i + 1
-		if i == 3 {
-			i = 0
+		power, err := s.solarEdgeClient.GetCurrentPower()
+		if err != nil {
+			return err
+		}
+
+		switch {
+		case power.ProductionSurplus(minimumPowerSurplusKwatt):
+			s.relay.SwitchOn()
+			s.led.SwitchGreen()
+			s.log(*power, "ON")
+			break
+
+		case power.Production():
+			s.relay.SwitchOff()
+			s.led.SwitchYellow()
+			s.log(*power, "OFF")
+			break
+
+		default:
+			s.relay.SwitchOff()
+			s.led.SwitchRed()
+			s.log(*power, "OFF")
 		}
 
 		time.Sleep(s.refresh)
@@ -63,7 +82,16 @@ func (s Service) Run() error {
 
 }
 
-func energySurplus(power solaredge.Power) bool {
-	return power.SiteCurrentPowerFlow.Pv.Status == solaredge.PhotovoltaicStatusActive &&
-		power.SiteCurrentPowerFlow.Pv.CurrentPower > 1.5
+func (s Service) nightTime() bool {
+	now := time.Now()
+	return now.Hour() <= 8 && now.Hour() >= 18
+}
+
+func (s Service) log(power solaredge.Power, enabled string) {
+	log.Printf(
+		"Production %f kW, Consumption %f kW, smart grid %s\n",
+		power.SiteCurrentPowerFlow.Pv.CurrentPower,
+		power.SiteCurrentPowerFlow.Load.CurrentPower,
+		enabled,
+	)
 }

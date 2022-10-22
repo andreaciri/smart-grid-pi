@@ -20,7 +20,7 @@ func main() {
 		log.Fatal("error reading .env")
 	}
 
-	seconds, err := strconv.Atoi(os.Getenv("REFRESH_TIME_SECONDS"))
+	refreshTimeSeconds, err := strconv.Atoi(os.Getenv("REFRESH_TIME_SECONDS"))
 	if err != nil {
 		log.Fatal("error invalid REFRESH_TIME_SECONDS")
 	}
@@ -45,7 +45,7 @@ func main() {
 		solarEdgeClient,
 		relay,
 		led,
-		time.Duration(seconds)*time.Second,
+		time.Duration(refreshTimeSeconds)*time.Second,
 	)
 
 	err = service.Run()

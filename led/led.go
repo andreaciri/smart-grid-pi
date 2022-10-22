@@ -23,6 +23,10 @@ func NewLed() (*Led, error) {
 	yellow.Output()
 	green.Output()
 
+	red.Low()
+	yellow.Low()
+	green.Low()
+
 	return &Led{
 		red:    red,
 		yellow: yellow,
