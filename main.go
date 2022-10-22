@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/andreaciri/smart-grid-pi/led"
 	"github.com/andreaciri/smart-grid-pi/relay"
 	"github.com/andreaciri/smart-grid-pi/solaredge"
 	"github.com/joho/godotenv"
@@ -35,9 +36,15 @@ func main() {
 		log.Fatal("relay error: ", err.Error())
 	}
 
+	led, err := led.NewLed()
+	if err != nil {
+		log.Fatal("led error: ", err.Error())
+	}
+
 	service := NewService(
 		solarEdgeClient,
 		relay,
+		led,
 		time.Duration(seconds)*time.Second,
 	)
 
