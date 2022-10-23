@@ -29,7 +29,3 @@ func (r Relay) SwitchOn() {
 func (r Relay) SwitchOff() {
 	r.pin.Low()
 }
-
-func (r Relay) Toggle() {
-	r.pin.Toggle()
-}

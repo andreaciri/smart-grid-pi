@@ -18,13 +18,13 @@ type SolarEdgeClient interface {
 type Relay interface {
 	SwitchOn()
 	SwitchOff()
-	Toggle()
 }
 
 type Led interface {
 	SwitchRed()
 	SwitchYellow()
 	SwitchGreen()
+	SwitchOff()
 }
 
 type Service struct {
@@ -45,10 +45,17 @@ func NewService(solarEdgeClient SolarEdgeClient, relay Relay, led Led, refresh t
 
 func (s Service) Run() error {
 
+	defer func() {
+		s.relay.SwitchOff()
+		s.led.SwitchOff()
+	}()
+
 	for {
 
 		// sleep during night
 		if s.nightTime() {
+			s.relay.SwitchOff()
+			s.led.SwitchOff()
 			time.Sleep(s.refresh)
 			continue
 		}
