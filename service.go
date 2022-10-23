@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	minimumPowerSurplusKwatt = 2.0
+	minimumPowerSurplusWatt = 2000
 )
 
 type SolarEdgeClient interface {
@@ -66,7 +66,7 @@ func (s Service) Run() error {
 		}
 
 		switch {
-		case power.ProductionSurplus(minimumPowerSurplusKwatt):
+		case power.ProductionSurplus(minimumPowerSurplusWatt):
 			s.relay.SwitchOn()
 			s.led.SwitchGreen()
 			s.log(*power, "ON")
