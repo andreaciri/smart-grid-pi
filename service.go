@@ -7,10 +7,6 @@ import (
 	"github.com/andreaciri/smart-grid-pi/solaredge"
 )
 
-const (
-	minimumPowerSurplusWatt = 2000
-)
-
 type SolarEdgeClient interface {
 	GetCurrentPower() (power *solaredge.Power, err error)
 }
@@ -28,18 +24,20 @@ type Led interface {
 }
 
 type Service struct {
-	solarEdgeClient SolarEdgeClient
-	relay           Relay
-	led             Led
-	refresh         time.Duration
+	solarEdgeClient         SolarEdgeClient
+	relay                   Relay
+	led                     Led
+	refresh                 time.Duration
+	minimumPowerSurplusWatt int
 }
 
-func NewService(solarEdgeClient SolarEdgeClient, relay Relay, led Led, refresh time.Duration) Service {
+func NewService(solarEdgeClient SolarEdgeClient, relay Relay, led Led, refresh time.Duration, minimumPowerSurplusWatt int) Service {
 	return Service{
-		solarEdgeClient: solarEdgeClient,
-		relay:           relay,
-		led:             led,
-		refresh:         refresh,
+		solarEdgeClient:         solarEdgeClient,
+		relay:                   relay,
+		led:                     led,
+		refresh:                 refresh,
+		minimumPowerSurplusWatt: minimumPowerSurplusWatt,
 	}
 }
 
@@ -66,17 +64,15 @@ func (s Service) Run() error {
 		}
 
 		switch {
-		case power.ProductionSurplus(minimumPowerSurplusWatt):
+		case power.ProductionSurplus(s.minimumPowerSurplusWatt):
 			s.relay.SwitchOn()
 			s.led.SwitchGreen()
 			s.log(*power, "ON")
-			break
 
 		case power.Production():
 			s.relay.SwitchOff()
 			s.led.SwitchYellow()
 			s.log(*power, "OFF")
-			break
 
 		default:
 			s.relay.SwitchOff()

@@ -41,8 +41,8 @@ func (p Power) Production() bool {
 
 // ProductionSurplus returns true if the system is producing unused electricity.
 // thresholdWatt is the minimum amount of power considered surplus, in Watt
-func (p Power) ProductionSurplus(thresholdWatt float64) bool {
+func (p Power) ProductionSurplus(thresholdWatt int) bool {
 	return p.SiteCurrentPowerFlow.Pv.Status == PhotovoltaicStatusActive &&
-		(p.SiteCurrentPowerFlow.Pv.CurrentPower-p.SiteCurrentPowerFlow.Load.CurrentPower) >
-			(thresholdWatt*1000)
+		(p.SiteCurrentPowerFlow.Pv.CurrentPower-p.SiteCurrentPowerFlow.Load.CurrentPower) >=
+			float64(thresholdWatt*1000)
 }

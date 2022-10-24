@@ -25,6 +25,11 @@ func main() {
 		log.Fatal("error invalid REFRESH_TIME_SECONDS")
 	}
 
+	minimumPowerSurplusWatt, err := strconv.Atoi(os.Getenv("MIN_POWER_SURPLUS_WATT"))
+	if err != nil {
+		log.Fatal("error invalid MIN_POWER_SURPLUS_WATT")
+	}
+
 	solarEdgeClient := solaredge.NewClient(
 		os.Getenv("SOLAREDGE_API_BASE_URL"),
 		os.Getenv("SOLAREDGE_SITE_ID"),
@@ -46,9 +51,10 @@ func main() {
 		relay,
 		led,
 		time.Duration(refreshTimeSeconds)*time.Second,
+		minimumPowerSurplusWatt,
 	)
 
 	err = service.Run()
 
-	log.Fatal("error: ", err.Error())
+	log.Fatal("service error: ", err.Error())
 }
