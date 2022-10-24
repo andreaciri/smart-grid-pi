@@ -87,7 +87,7 @@ func (s Service) Run() error {
 
 func (s Service) nightTime() bool {
 	now := time.Now()
-	return now.Hour() <= 8 && now.Hour() >= 18
+	return now.Hour() <= 8 || now.Hour() >= 18
 }
 
 func (s Service) log(power solaredge.Power, enabled string) {
