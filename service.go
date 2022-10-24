@@ -52,6 +52,7 @@ func (s Service) Run() error {
 
 		// sleep during night
 		if s.nightTime() {
+			log.Println("going to sleep...")
 			s.relay.SwitchOff()
 			s.led.SwitchOff()
 			time.Sleep(s.refresh)
