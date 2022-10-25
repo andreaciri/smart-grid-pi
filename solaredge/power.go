@@ -44,5 +44,5 @@ func (p Power) Production() bool {
 func (p Power) ProductionSurplus(thresholdWatt int) bool {
 	return p.SiteCurrentPowerFlow.Pv.Status == PhotovoltaicStatusActive &&
 		(p.SiteCurrentPowerFlow.Pv.CurrentPower-p.SiteCurrentPowerFlow.Load.CurrentPower) >=
-			float64(thresholdWatt*1000)
+			float64(thresholdWatt)/1000
 }
